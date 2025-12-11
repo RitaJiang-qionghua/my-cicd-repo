@@ -1,0 +1,9 @@
+# 忽略编译产物
+build/
+*.exe
+*.out
+*.o
+
+# 忽略IDE或编辑器生成的文件
+.vscode/
+.idea/
