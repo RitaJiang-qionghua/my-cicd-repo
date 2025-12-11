@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on: # 触发条件
+  push: # 每当代码被推送到仓库时
+    branches: [ main ]
+  pull_request: # 或当有人创建拉取请求时
+    branches: [ main ]
+
+jobs: # 定义要执行的任务
+  build-and-test: # 第一个任务：构建和测试
+    name: Build and Test C++ Application
+    runs-on: ubuntu-latest # 在 GitHub 提供的最新版 Ubuntu 虚拟机上运行
+
+    steps: # 定义任务中的具体步骤
+    - name: Checkout code # 步骤1：拉取你的代码
+      uses: actions/checkout@v3
+
+    - name: Install Dependencies # 步骤2：安装编译所需的工具
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cmake g++
+
+    - name: Configure with CMake # 步骤3：CMake 配置（与你本地操作一致）
+      run: |
+        mkdir -p build
+        cd build
+        cmake ..
+
+    - name: Build the Application # 步骤4：编译
+      run: |
+        cd build
+        make -j4
+
+    - name: Run the Application # 步骤5：运行程序，验证构建成功
+      run: |
+        ./build/hello_app
